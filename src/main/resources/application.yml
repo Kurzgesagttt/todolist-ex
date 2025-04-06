@@ -2,14 +2,14 @@ spring:
   application:
     name: libraryapi
   datasource:
-    url: jdbc:postgresql://localhost:5432/todo
+    url: jdbc:postgresql://localhost:5435/todo
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
     hibernate:
-      #      ddl-auto: update
-      ddl-auto: none
+      #      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate.format_sql: true

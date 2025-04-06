@@ -9,5 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TodoController {
 
     @GetMapping
-    public ResponseEntity<>
+    public ResponseEntity<> getAll(){
+
+        return ;
+    }
 }
