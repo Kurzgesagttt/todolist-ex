@@ -31,6 +31,12 @@ public class TodoServices {
         return repository.findById(id).orElse(null);
     }
 
+    //altera o estado 'realizado'
+    public Todos updateTodoRealizado(Todos todo){
+        todo.setRealizado(!todo.isRealizado());
+        return repository.save(todo);
+    }
+
     //pesqusia por nome
     public List<Todos> pesquisa(String name){
         if(name == null){

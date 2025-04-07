@@ -38,4 +38,16 @@ public class TodoController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    @PatchMapping("/status/{id}")
+    public ResponseEntity<TodoResponseDTO> updateTodoStatus(@PathVariable Long id){
+        Todos todo = services.getTodo(id);
+        if(todo == null){
+            return ResponseEntity.notFound().build();
+        }
+        Todos todoUpdated = services.updateTodoRealizado(todo);
+        TodoResponseDTO responseDTO = TodoMapper.mapToDTO(todoUpdated);
+        return ResponseEntity.ok(responseDTO);
+    }
+
+
 }
