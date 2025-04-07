@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/todos")
 public class TodoController {
@@ -19,8 +21,15 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<Void> createTodo(@Valid @RequestBody TodoRequestDTO dto){
         Todos todo = TodoMapper.mapToEntity(dto);
-
-
-        return ResponseEntity.created().body(services.createTodo());
+        URI location = URI.create(String.format("/todos/%s", todo.getId()));
+        services.createTodo(todo);
+        return ResponseEntity.created(location).build();
     }
+
+    @GetMapping
+    public ResponseEntity<Void> getAllTodos(){
+        services.getAllTodos();
+        return ResponseEntity.ok().build();
+    }
+
 }

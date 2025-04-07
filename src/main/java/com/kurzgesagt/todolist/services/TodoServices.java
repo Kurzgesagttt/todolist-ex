@@ -22,6 +22,10 @@ public class TodoServices {
         return savedTodo;
     }
 
+    public List<Todos> getAllTodos(){
+        return repository.findAll();
+    }
+
     //pesqusia por id
     public Todos getTodo(Long id){
         return repository.findById(id).orElse(null);
@@ -32,7 +36,7 @@ public class TodoServices {
         if(name == null){
             return repository.findAll();
         }else {
-            return repository.findByName(name);
+            return repository.findByNome(name);
         }
     }
 
