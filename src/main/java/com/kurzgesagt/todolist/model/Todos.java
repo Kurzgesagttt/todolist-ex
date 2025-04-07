@@ -15,7 +15,7 @@ public class Todos {
     @Column(name = "descricao", nullable = false)
     private String descricao;
     @Column(name = "prioridade")
-    private int prioridade;
+    private int prioridade = 1;
     @Column(name = "realizado")
     private boolean realizado = false;
 
