@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-
-    @ExceptionHandler(TodoCreationException.class)
+    @ExceptionHandler(TodoNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleTodoNotFoundException(TodoNotFoundException ex){
         ErrorResponseDTO erroResponse = new ErrorResponseDTO(ex.getMessage(), HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erroResponse);
@@ -24,7 +22,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-
-
+    public ResponseEntity<ErrorResponseDTO> handleGenericException(Exception ex){
+        ErrorResponseDTO dto = new ErrorResponseDTO("Ocorreu um erro interno com o servidor",HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dto);
+    }
 
 }

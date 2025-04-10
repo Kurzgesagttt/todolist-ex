@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoServices {
@@ -26,25 +27,31 @@ public class TodoServices {
         return repository.findAll();
     }
 
-    //pesqusia por id
-    public Todos getTodo(Long id){
-        return repository.findById(id).orElse(null);
-    }
-
     //altera o estado 'realizado'
     public Todos updateTodoRealizado(Todos todo){
         todo.setRealizado(!todo.isRealizado());
         return repository.save(todo);
     }
 
+    public Optional<Todos> getTodo(Long id){
+        var todo = repository.findById(id);
+        if(todo == null){
+            throw new TodoCreationException("Tarefa nao encontrada para exclusao");
+        }
+        return todo;
+    }
+
     //pesqusia por nome
     public List<Todos> pesquisa(String name){
-        if(name == null){
+        if (name == null || name.trim().isEmpty()) {
             return repository.findAll();
-        }else {
-            return repository.findByNome(name);
+        } else {
+            return repository.findByNomeContainingIgnoreCase(name);
         }
     }
 
-
+    public Todos deleteTodo(Todos todos){
+        repository.delete(todos);
+        return todos;
+    }
 }
