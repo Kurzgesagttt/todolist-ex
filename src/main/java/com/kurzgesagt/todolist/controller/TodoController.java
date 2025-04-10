@@ -26,8 +26,8 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<TodoResponseDTO> createTodo(@Valid @RequestBody TodoRequestDTO dto){
         Todos todo = TodoMapper.mapToEntity(dto);
-        URI location = URI.create(String.format("/todos/%s", todo.getId()));
         services.createTodo(todo);
+        URI location = URI.create(String.format("/todos/%s", todo.getId()));
         return ResponseEntity.created(location).build();
 
     }
@@ -66,24 +66,20 @@ public class TodoController {
 
     @PatchMapping("/status/{id}")
     public ResponseEntity<TodoResponseDTO> updateTodoStatus(@PathVariable Long id){
-        Optional todo = services.getTodo(id);
+        Todos todo = services.getTodoOrThrow(id);
         if(todo == null){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        Todos toUpdate = (Todos) todo.get();
-        Todos todoUpdated = services.updateTodoRealizado(toUpdate);
+        Todos todoUpdated = services.updateTodoRealizado(todo);
         TodoResponseDTO responseDTO = TodoMapper.mapToDTO(todoUpdated);
         return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<TodoResponseDTO> deleteTodo(@PathVariable Long id){
-        Optional<Todos> todo = services.getTodo(id);
-        if(todo.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        Todos todoToDelete = todo.get();
-        services.deleteTodo(todoToDelete);
+        Todos todo = services.getTodoOrThrow(id);
+
+        services.deleteTodo(todo);
         return ResponseEntity.ok().build();
     }
 

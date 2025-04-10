@@ -1,6 +1,7 @@
 package com.kurzgesagt.todolist.services;
 
 import com.kurzgesagt.todolist.exceptions.TodoCreationException;
+import com.kurzgesagt.todolist.exceptions.TodoNotFoundException;
 import com.kurzgesagt.todolist.model.Todos;
 import com.kurzgesagt.todolist.repositories.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,11 @@ public class TodoServices {
         return repository.save(todo);
     }
 
-    public Optional<Todos> getTodo(Long id){
-        var todo = repository.findById(id);
-        if(todo == null){
-            throw new TodoCreationException("Tarefa nao encontrada para exclusao");
-        }
-        return todo;
-    }
+    public Todos getTodoOrThrow(Long id) {
+        return repository.findById(id).orElseThrow(()
+                -> new TodoNotFoundException("Tarefa não encontrada com id: " + id));
 
+    }
     //pesqusia por nome
     public List<Todos> pesquisa(String name){
         if (name == null || name.trim().isEmpty()) {
