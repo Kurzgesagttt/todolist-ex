@@ -1,6 +1,5 @@
 package com.kurzgesagt.todolist.controller;
 
-import brave.Response;
 import com.kurzgesagt.todolist.model.Todos;
 import com.kurzgesagt.todolist.model.dto.TodoRequestDTO;
 import com.kurzgesagt.todolist.model.dto.TodoResponseDTO;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/todos")
@@ -34,7 +32,7 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<List<TodoResponseDTO>> getAllTodos(){
-        List<Todos> list = services.getAllTodos();
+        List<Todos> list = services.getAllByPrioridade();
         List<TodoResponseDTO> responseDTO = list.stream()
                 .map(TodoMapper::mapToDTO)
                 .toList();

@@ -28,6 +28,10 @@ public class TodoServices {
         return repository.findAll();
     }
 
+    public List<Todos> getAllByPrioridade(){
+        return repository.findAllByOrderByPrioridadeDesc();
+    }
+
     //altera o estado 'realizado'
     public Todos updateTodoRealizado(Todos todo){
         todo.setRealizado(!todo.isRealizado());

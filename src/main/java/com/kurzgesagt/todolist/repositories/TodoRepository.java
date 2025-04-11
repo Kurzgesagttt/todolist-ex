@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface TodoRepository extends JpaRepository<Todos,Long> {
     Optional<Todos> findById(Long id);
     List<Todos> findAll();
+    List<Todos> findAllByOrderByPrioridadeDesc();
     List<Todos> findByNome(String nome);
     List<Todos> findByNomeContainingIgnoreCase(String nome);
 
